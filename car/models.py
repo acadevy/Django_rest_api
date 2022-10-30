@@ -11,8 +11,11 @@ class DateControls(models.Model):
 
 
 class Manufacturer(DateControls):
-    name = models.CharField(max_length=200,help_text="holds the name of the car")
+    name = models.CharField(max_length=200,help_text="holds the name of the car",unique=True)
+    
 
+    def __str__(self) -> str:
+        return self.name
 
 class Car(DateControls):
     name = models.CharField(max_length=200,help_text="holds the name of the car")
@@ -20,6 +23,10 @@ class Car(DateControls):
     serial_number = models.PositiveBigIntegerField(max_length=20,unique=True)
     manufacture_date = models.DateTimeField()
     manufacturer = models.ForeignKey(Manufacturer,related_name="car_manufacturers",on_delete=models.CASCADE)
+
+
+    def __str__(self) -> str:
+        return f"{self.manufacturer.name} {self.name}"
 
 
 
